@@ -1,38 +1,30 @@
-// Rod cutting problem
-#include <bits/stdc++.h>
-using namespace std;
-int cutRodRecursion(int price[], int n);
-int cutRodDP(int price[], int n);
-int main(){
-	int n;
-	cin >> n;
-	int price[n];
-	for(int i=0; i<n; i++)
-		cin >> price[i];
-	cout << cutRodRecursion(price, n) << endl;
-	cout << cutRodDP(price, n) << endl;
-	return 0;
-}
+#include<stdio.h> 
+#include<bits/stdc++.h> 
+  
+ 
+int max(int a, int b) { return (a > b)? a : b;} 
+  
 
-// Exponential
-int cutRodRecursion(int price[], int n){
-	int maxRev = 0;
-	for(int i=0; i<n; i++){
-		maxRev = max(maxRev, price[i] + cutRodRecursion(price, n-i-1));
-	}
-	return maxRev;
-}
-
-// O(n^2)
-int cutRodDP(int price[], int n){
-	int revenue[n], p=0;
-	revenue[0] = 0;
-	for(int i=0; i<=n; i++){
-		p=0;
-		for(int j=0; j<i; j++){
-			p = max(p, price[j] + revenue[i-j-1]);
-		}
-		revenue[i] = p;
-	}
-	return revenue[n];
-}
+int cutRod(int price[], int n) 
+{ 
+   if (n <= 0) 
+     return 0; 
+   int max_val = INT_MIN; 
+  
+   // Recursively cut the rod in different pieces and compare different  
+   // configurations 
+   for (int i = 0; i<n; i++) 
+         max_val = max(max_val, price[i] + cutRod(price, n-i-1)); 
+  
+   return max_val; 
+} 
+  
+//main function to test above functions
+int main() 
+{ 
+    int arr[] = {1, 5, 8, 9, 10, 17, 17, 20}; 
+    int size = sizeof(arr)/sizeof(arr[0]); 
+    printf("Maximum Obtainable Value is %dn", cutRod(arr, size)); 
+    getchar(); 
+    return 0; 
+} 
